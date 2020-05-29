@@ -1,3 +1,39 @@
+def textJustification(words, L): 
+        justified = []
+        wordlist = []
+        temp = []
+        charLen = 0
+
+        for word in words:
+            if charLen + len(word) > L - len(temp):
+                wordlist.append(temp)
+                temp = []
+                charLen = 0
+
+            temp.append(word)
+            charLen += len(word)
+        wordlist.append(temp)
+
+        for lists in wordlist[:-1]:
+            string = ''
+            totalSpaces = L - sum(len(word) for word in lists)
+            numOfSpaces = len(lists) - 1 if len(lists) > 1 else 1
+            spacing = totalSpaces // numOfSpaces
+            spacingExtra = totalSpaces // numOfSpaces + 1
+            remainder = totalSpaces % numOfSpaces
+
+            if len(lists) == 1:
+                string = lists[0].ljust(L)
+            else:
+                for i in range(len(lists)-1):
+                    string += lists[i] + (' ' * (spacingExtra if i < remainder else spacing))
+                string += lists[-1]
+
+            justified.append(string)
+
+        justified.append(' '.join(wordlist[-1]).ljust(L))
+        return justified 
+
 # FIRST PYTHON TRY 11/15
 # FAILED
 # def textJustification(words, maxWidth): 
